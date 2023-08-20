@@ -1,0 +1,12 @@
+ numpy
+ pandas
+ seaborn
+ matplotlib
+ plotly
+ scipy
+ scikit-learn
+ xgboost
+ python-dotenv 
+ openpyxl
+ pandas-profiling
+ ydata-profiling
