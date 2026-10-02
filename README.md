@@ -1,77 +1,81 @@
-# Customer-Churn-Prediction-Analysis
+# Customer Churn Prediction and Analysis
 
-**Customer Churn Classification Project**
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+![Python](https://img.shields.io/badge/python-3.9%2B-blue)
+![scikit-learn](https://img.shields.io/badge/scikit--learn-classification-orange)
+![Jupyter](https://img.shields.io/badge/notebook-Jupyter-lightgrey)
 
-Welcome to the Customer Churn Classification Project! In this project, we focus on building classification models to perform churn analysis on customer data, a critical task for companies looking to enhance their revenue by retaining customers. Classification is a supervised learning approach where the goal is to predict the class or category that new data instances belong to.
+An end-to-end churn analysis for a telecom company: combining data from three
+sources, exploring what drives customers to leave, testing hypotheses, and
+training classification models to predict churn. The best model, a tuned
+**Random Forest**, is served in the companion app
+[ChurnPredictor-GradioApp](https://github.com/Feiiiisal/ChurnPredictor-GradioApp).
 
-**Data Sources**
-In this project, the dataset is spread across three different sources:
+## Why it matters
 
-1. First Data Set: The initial 3000 records of the dataset are stored in a remote SQL database. You will need to access this database to gather the data.
+Keeping an existing customer is cheaper than winning a new one. Knowing which
+customers are likely to leave lets a company act early with offers or support.
 
-2. Second Data Set: The next 2000 records are available on OneDrive in an Excel file named "Telco-churn-second-2000.xlsx". This dataset serves as the test dataset.
+## Data
 
-3. Third Data Set: The final portion of the data, comprising 2000 records, is hosted on this GitHub Repository in a CSV file named "LP2_Telco-churn-last-2000.csv". Additional information about the dataset's features and context can also be found in this repository.
+The customer records are split across three places, as in a real project:
 
-**Models and Results**
+| Part | Records | Where |
+|---|---|---|
+| First dataset | first 3,000 | a remote SQL database (needs credentials, see below) |
+| Second dataset | next 2,000 | `Telco-churn-second-2000.xlsx` (used as the test set) |
+| Third dataset | last 2,000 | `LP2_Telco-churn-last-2000.csv` in this repository |
 
-The following classification models were trained on the dataset:
+`df.csv` and `df_test.csv` are the prepared training and test tables.
 
-    Support Vector Classifier (SVC)
-    Gaussian Naive Bayes (GaussianNB)
-    Decision Tree Classifier (DecisionTreeClassifier)
-    Random Forest Classifier (RandomForestClassifier)
-    XGBoost Classifier (XGBClassifier)
-    Gradient Boosting Classifier (GradientBoostingClassifier)
-    AdaBoost Classifier (AdaBoostClassifier)
-    Logistic Regression (LogisticRegression)
+## Approach
 
-After evaluating the models, the RandomForestClassifier stood out with consistent performance in terms of precision, recall, and F1-score for both the Churn and Non-Churn classes. It achieved high scores across all metrics, indicating a balanced identification of Churn and Non-Churn cases.
+1. **Data collection**: load and combine the three sources.
+2. **Exploratory analysis**: profiling reports, charts
+   (`Descriptive_Statistics_Boxplots.html`) and statistical analysis.
+3. **Preparation**: cleaning, feature engineering, encoding, scaling and class
+   balancing with SMOTE.
+4. **Modelling**: eight classifiers compared: SVC, Gaussian Naive Bayes, Decision
+   Tree, Random Forest, XGBoost, Gradient Boosting, AdaBoost and Logistic
+   Regression, followed by hyperparameter tuning of the best candidates.
 
-Key metrics from the classification report for RandomForestClassifier:
+## Results
 
-    Precision (Churn): 0.87
-    Precision (Non-Churn): 0.86
-    Recall (Churn): 0.87
-    Recall (Non-Churn): 0.86
-    F1-score (Churn): 0.87
-    F1-score (Non-Churn): 0.87
-    Accuracy: 0.87
-Both Churn and Non-Churn classes have well-balanced precision and recall values, leading to a high overall F1-score and accuracy. The RandomForestClassifier demonstrates strong performance in classifying customer churn.
+The tuned **Random Forest** gave the most balanced results. On a balanced
+evaluation set of 1,478 customers (739 per class) the notebook reports:
 
-**Conclusion**
+| Class | Precision | Recall | F1-score |
+|---|---|---|---|
+| No churn | 0.87 | 0.85 | 0.86 |
+| Churn | 0.86 | 0.88 | 0.87 |
 
-Through a combination of data preprocessing, feature engineering, and model training, we successfully built a RandomForestClassifier model that achieved an accuracy score of 0.865. This indicates our model's ability to effectively differentiate between loyal customers and those at risk of churning.
+Overall **accuracy: 0.86**. Gradient Boosting reached 0.85, SVC 0.81 and
+Gaussian Naive Bayes 0.75 in the same comparison.
 
-**Usage**
-To replicate or build upon this project:
+## Repository contents
 
-Access the required data from the specified sources.
-Install the necessary dependencies by running:
+```
+lp2_new.ipynb                       The full analysis and modelling notebook
+LP2_Telco-churn-last-2000.csv       Third part of the data
+Telco-churn-second-2000.xlsx        Second part of the data (test set)
+df.csv, df_test.csv                 Prepared train / test tables
+Descriptive_Statistics_Boxplots.html  Exported interactive charts
+Export2/ml.pkl                      Saved trained model
+requirements.txt
+.env.example
+```
 
-  pip install -r requirements.txt.
+## Setup
 
-Execute the classification scripts and notebooks provided in the repository.
+```bash
+pip install -r requirements.txt
+```
 
-**Contributing**
+The notebook reads the first 3,000 records from an Azure SQL database using
+credentials from a `.env` file. Copy `.env.example` to `.env` and fill in the
+values you were given (never commit `.env`). Without database access you can
+still work with the CSV and Excel files.
 
-Contributions to this project are welcome! If you'd like to contribute, please follow the standard GitHub workflow:
+## License
 
-**Fork the repository.**
-
-Create a new branch for your feature/fix:
-
-  git checkout -b feature/your-feature-name
-
-Commit your changes: 
-
-  git commit -m "Add a new feature"
-
-Push to the branch: 
-
-  git push origin feature/your-feature-name
-
-Open a pull request.
-
-**License**
-This project is licensed under the MIT License.
+[MIT](LICENSE)
